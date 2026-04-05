@@ -3,10 +3,8 @@
 import React, { useEffect, useRef, useMemo, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { GlobeMethods } from "react-globe.gl";
-import { useQuery } from "@tanstack/react-query";
 
 import { useGlobeStore } from "@/store/use-globe-store";
-import { baseFetchQuery } from "@/utils/baseFetchQuery";
 import { optimizedCombinedCluster } from "@/components/otherAlgo";
 import { getSeverityColorCode } from "@/components/globle/utils";
 import { createGlobeMarker } from "@/components/globle/createGlobeMarker";

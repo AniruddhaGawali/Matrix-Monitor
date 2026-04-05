@@ -1,12 +1,13 @@
 "use client";
 
-import { useSelectedDateState } from "@/store/use-date-store";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useMemo, useRef, useState, type FC } from "react";
 
 interface CalendarProps {
   minDate?: Date;
   maxDate?: Date;
+  selectedDate: Date;
+  onDateChange: (date: Date) => void;
 }
 
 const days = "SMTWTFS";
@@ -303,8 +304,12 @@ function CalendarPopup({
   );
 }
 
-const Calendar: FC<CalendarProps> = ({ minDate, maxDate }) => {
-  const { selectedDate, setSelectedDate } = useSelectedDateState();
+const Calendar: FC<CalendarProps> = ({
+  minDate,
+  maxDate,
+  selectedDate,
+  onDateChange,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
 
@@ -339,7 +344,7 @@ const Calendar: FC<CalendarProps> = ({ minDate, maxDate }) => {
           minDate={minDate}
           maxDate={maxDate}
           onDateChange={(date) => {
-            setSelectedDate(date);
+            onDateChange(date);
             setIsOpen(false);
           }}
           selectedDate={selectedDate}

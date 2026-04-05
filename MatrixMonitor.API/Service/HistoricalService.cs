@@ -8,6 +8,12 @@ namespace MatrixMonitor.API.Service;
 
 public class HistoricalService : IHistoricalService
 {
+    private sealed class MinMaxHistoricalDateCacheModel
+    {
+        public DateTime MinDate { get; set; }
+        public DateTime MaxDate { get; set; }
+    }
+
     private readonly IHistoricalAttacksRepository _historicalAttacksRepository;
     private readonly IDistributedCache _cache;
     private static readonly JsonSerializerOptions _jsonOptions = new()
@@ -51,15 +57,24 @@ public class HistoricalService : IHistoricalService
         var cachedData = await _cache.GetStringAsync(cacheKey, ct);
         if (!string.IsNullOrEmpty(cachedData))
         {
-            var cachedResult = JsonSerializer.Deserialize<(DateTime minDate, DateTime maxDate)>(cachedData, _jsonOptions);
-            if (cachedResult != default) return cachedResult;
+            var cachedResult = JsonSerializer.Deserialize<MinMaxHistoricalDateCacheModel>(cachedData, _jsonOptions);
+            if (cachedResult != null)
+            {
+                return (cachedResult.MinDate, cachedResult.MaxDate);
+            }
         }
         var result = await _historicalAttacksRepository.GetMinMaxHistoricalDate(ct);
         var minDate = TimeZoneInfo.ConvertTimeFromUtc(result.minDate, timezone);
         var maxDate = TimeZoneInfo.ConvertTimeFromUtc(result.maxDate, timezone);
 
         var finalResult = (minDate, maxDate);
-        await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(finalResult, _jsonOptions), _cacheOptions, ct);
+        var cacheModel = new MinMaxHistoricalDateCacheModel
+        {
+            MinDate = minDate,
+            MaxDate = maxDate
+        };
+
+        await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(cacheModel, _jsonOptions), _cacheOptions, ct);
         return finalResult;
     }
 }
