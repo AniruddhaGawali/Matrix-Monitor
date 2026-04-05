@@ -1,14 +1,16 @@
 "use client";
 
-import { useSelectedDateState } from "@/store/use-date-store";
 import { useGlobeStore } from "@/store/use-globe-store";
 import { baseFetchQuery } from "@/utils/baseFetchQuery";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { useDateSearchParam } from "@/hooks/use-date-search-param";
+import { usePageSearchParam } from "@/hooks/use-page-search-param";
 
 function Iplist() {
   const { setTargetLocation, targetLocation } = useGlobeStore((state) => state);
-  const { selectedDate } = useSelectedDateState((state) => state);
+  const { selectedDate } = useDateSearchParam();
+  const { currentPage } = usePageSearchParam();
   const isSelectedDateIsToday = dayjs(selectedDate).isSame(new Date(), "day");
 
   const {
@@ -16,9 +18,9 @@ function Iplist() {
     error: liveAttacksError,
     isLoading: liveAttacksIsLoading,
     isFetching: liveAttacksIsFetching,
-  } = useQuery<any, Error, Attack[]>({
-    queryKey: ["liveAttacks"],
-    queryFn: baseFetchQuery("/Attacks?limit=100&page=1", "GET"),
+  } = useQuery<{ data: Attack[] }, Error, Attack[]>({
+    queryKey: ["liveAttacks", currentPage],
+    queryFn: baseFetchQuery("/Attacks?limit=100&page=" + currentPage, "GET"),
     select: (resp) => resp.data as Attack[],
     enabled: isSelectedDateIsToday,
   });
@@ -30,8 +32,8 @@ function Iplist() {
     error: historicalAttacksError,
     isLoading: historicalAttacksIsLoading,
     isFetching: historicalAttacksIsFetching,
-  } = useQuery<any, Error, Attack[]>({
-    queryKey: ["historical" + historicalDate],
+  } = useQuery<{ data: Attack[] }, Error, Attack[]>({
+    queryKey: ["historical", historicalDate],
     queryFn: baseFetchQuery(
       `/Attacks/historical-data?dateTime=${historicalDate}`,
       "GET",
@@ -53,7 +55,7 @@ function Iplist() {
 
   if (isFetching || isLoading) {
     return (
-      <div className="absolute -translate-y-1/2 top-1/2 left-4 w-1/4 h-2/3 z-10 max-w-100 z-50">
+      <div className="absolute -translate-y-1/2 top-1/2 left-4 w-1/4 h-2/3 max-w-100 z-50">
         <div className="terminal-box h-full w-full p-4 flex flex-col">
           <div className="corner top-left">+</div>
           <div className="corner top-right">+</div>
@@ -92,6 +94,31 @@ function Iplist() {
           <div className="flex-1 flex items-center justify-center">
             <p className="text-center text-lg text-red-500">
               Error fetching data.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="absolute -translate-y-1/2 top-1/2 left-4 w-1/4 h-2/3 z-10 max-w-100">
+        <div className="terminal-box h-full w-full p-4 flex flex-col">
+          <div className="corner top-left">+</div>
+          <div className="corner top-right">+</div>
+          <div className="corner bottom-left">+</div>
+          <div className="corner bottom-right">+</div>
+
+          {/* Title always at top */}
+          <h2 className="text-2xl font-bold mb-4 text-center shrink-0">
+            Attackers IP List
+          </h2>
+
+          {/* Remaining space centers content */}
+          <div className="flex-1 flex items-center justify-center">
+            <p className="text-center text-lg">
+              No attacks found for this date.
             </p>
           </div>
         </div>

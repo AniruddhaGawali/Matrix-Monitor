@@ -21,7 +21,7 @@ export default function IPDetail() {
             {targetLocation.ipAddress}
           </h2>
           <i
-            className="ri-delete-bin-2-line cursor-pointer"
+            className="ri-close-line cursor-pointer"
             onClick={resetLocation}
           ></i>
         </div>
