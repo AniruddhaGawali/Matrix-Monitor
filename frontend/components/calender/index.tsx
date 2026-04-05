@@ -260,7 +260,7 @@ function CalendarPopup({
               type="button"
               onClick={() => {
                 const today = dayjs();
-                // if (isDisabledDate(today)) return;
+                if (isDisabledDate(today)) return;
                 if (onDateChange) {
                   onDateChange(today.toDate());
                 }
@@ -268,7 +268,7 @@ function CalendarPopup({
                 setIsYearSelectOpen(false);
               }}
               className="ml-2 px-2 py-1 rounded-sm text-xs hover:bg-primary/20 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-              // disabled={isDisabledDate(dayjs())}
+              disabled={isDisabledDate(dayjs())}
             >
               Today
             </button>
