@@ -58,7 +58,7 @@ const Navbar: FC = ({}) => {
       <div className="flex gap-2 items-start justify-center">
         <h1>MATRIX MONITOR</h1>
         {dayjs(selectedDate).isSame(dayjs(), "day") && (
-          <p className="text-[.6rem] text-twhite bg-tred px-1 py-0 rounded-sm ">
+          <p className="text-[.6rem] text-twhite bg-tred px-1 py-0 rounded-sm animate-pulse">
             Live {<>{currentPage >= 2 && `(Top ${currentPage * 100})`}</>}
           </p>
         )}

@@ -134,8 +134,13 @@ function Iplist() {
         <div className="corner bottom-left">+</div>
         <div className="corner bottom-right">+</div>
 
-        <h2 className="text-2xl font-bold mb-4 text-center shrink-0">
+        <h2 className="text-2xl font-bold mb-4 text-center shrink-0 flex items-center justify-center flex-col">
           Attackers IP List
+          {isSelectedDateIsToday && (
+            <span className="ml-2 text-sm font-normal text-green-400">
+              {(currentPage - 1) * 100} - {currentPage * 100}
+            </span>
+          )}
         </h2>
 
         <ul
@@ -143,7 +148,7 @@ function Iplist() {
           onClick={(e) => {
             const target = e.target as HTMLElement;
             if (target.tagName === "LI") {
-              const ip = target.textContent || "";
+              const ip = target.textContent.split(". ")[1].trim() || "";
               const attack = data?.find((a) => a.ipAddress === ip);
               if (attack) {
                 setTargetLocation(attack);
@@ -162,7 +167,7 @@ function Iplist() {
                   : "hover:bg-gray-700"
               }`}
             >
-              {attack.ipAddress}
+              {index + 1}. {attack.ipAddress}
             </li>
           ))}
         </ul>
