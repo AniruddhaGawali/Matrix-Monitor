@@ -485,3 +485,6 @@ $RECYCLE.BIN/
 #output
 /worker-publish-output
 /api-publish-output
+
+# Ignore development settings in any project folder
+**/appsettings.Development.json
