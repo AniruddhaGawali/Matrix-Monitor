@@ -1,0 +1,9 @@
+# Use only the lightweight runtime image
+FROM mcr.microsoft.com/dotnet/runtime:10.0
+WORKDIR /app
+
+# Copy the pre-compiled files from your local host into the container
+COPY ./worker-publish-output/ .
+
+# Run the worker
+ENTRYPOINT ["dotnet", "MatrixMonitor.IngestionWorker.dll"]

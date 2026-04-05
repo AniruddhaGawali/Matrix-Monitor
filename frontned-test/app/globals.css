@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #39ff14;
+  --color-background: #050505;
+  --color-tred: #ff0000;
+  --color-tyellow: #ffcc00;
+  --color-tblue: #729fcf;
+  --color-tpurple: #ad7fa8;
+  --color-tcyan: #34e2e2;
+  --color-twhite: #ffffff;
+  --color-torange: #ff6600;
+  --color-tamber: #ffcc00;
+  --color-tblack: #000000;
+}
+
+:root {
+  --bg-color: #050505;
+  --text-color: #39ff14;
+  --tred: #ff0000;
+  --tyellow: #ffcc00;
+  --tblue: #729fcf;
+  --tpurple: #ad7fa8;
+  --tcyan: #34e2e2;
+  --twhite: #ffffff;
+  --torange: #ff6600;
+  --tamber: #ffcc00;
+  --tblack: #000000;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+} /* Center it on the screen */
+
+.terminal-box {
+  position: relative;
+  background-color: var(--bg-color);
+  font-family: "Courier New", Courier, monospace;
+  width: 100%;
+  border: 1px dashed;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.15);
+}
+
+/* The Masking Corners */
+.corner {
+  position: absolute;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-size: 24px;
+  font-weight: bold;
+
+  /* Center the '+' */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+/* Offset by exactly half the corner's size (12px) to sit on the border */
+.top-left {
+  top: -12px;
+  left: -12px;
+}
+.top-right {
+  top: -12px;
+  right: -12px;
+}
+.bottom-left {
+  bottom: -12px;
+  left: -12px;
+}
+.bottom-right {
+  bottom: -12px;
+  right: -12px;
+}

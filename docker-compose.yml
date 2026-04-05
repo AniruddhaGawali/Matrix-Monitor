@@ -1,0 +1,39 @@
+version: "3.8"
+name: matrixmonitor
+
+services:
+  matrixmonitor_api_1:
+    build:
+      context: .
+      dockerfile: Dockerfile.Api
+    image: matrixmonitor-api:latest
+    container_name: matrixmonitor_api_1
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8081:8080"
+
+  matrixmonitor_api_2:
+    build:
+      context: .
+      dockerfile: Dockerfile.Api
+    image: matrixmonitor-api:latest
+    container_name: matrixmonitor_api_2
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8082:8080"
+    depends_on:
+      - matrixmonitor_api_1
+
+  ingestion_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.Worker
+    image: matrixmonitor-worker:latest
+    container_name: matrixmonitor_worker
+    restart: unless-stopped
+    env_file:
+      - .env

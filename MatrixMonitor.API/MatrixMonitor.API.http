@@ -1,0 +1,6 @@
+@MatrixMonitor.API_HostAddress = 
+
+GET {{MatrixMonitor.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

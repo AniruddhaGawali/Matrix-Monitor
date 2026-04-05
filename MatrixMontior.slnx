@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/SQLQuerys/">
+    <File Path=".gitignore" />
+    <File Path="main.sql" />
+  </Folder>
+  <Project Path="Core/MatrixMonitor.Core.csproj" />
+  <Project Path="MatrixMonitor.API/MatrixMonitor.API.csproj" />
+  <Project Path="MatrixMonitor.Infrastructure/MatrixMonitor.Infrastructure.csproj" />
+  <Project Path="MatrixMonitor.IngestionWorker/MatrixMonitor.IngestionWorker.csproj" />
+  <Project Path="MatrixMonitor.ML/MatrixMonitor.ML.csproj" />
+</Solution>
