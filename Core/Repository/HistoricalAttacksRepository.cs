@@ -69,7 +69,7 @@ public class HistoricalAttacksRepository : IHistoricalAttacksRepository
     public async Task<(DateTime minDate, DateTime maxDate)> GetMinMaxHistoricalDate(CancellationToken ct)
     {
         var minDate = await _readOnlyDbContext.HistoricalAttacks.MinAsync(item => item.TimeStamp, ct);
-        var maxDate = await _readOnlyDbContext.LiveAttacks.MaxAsync(item => item.TimeStamp, ct);
+        var maxDate = await _readOnlyDbContext.HistoricalAttacks.MaxAsync(item => item.TimeStamp, ct);
 
         return (minDate, maxDate);
     }
